@@ -28,6 +28,7 @@ CountryList.prototype.addCountry = function(country){
       if(request.status === 200) {
       }
     };
+    console.log(country)
     request.send( JSON.stringify( {country: country} ) );
 }
 module.exports = CountryList;

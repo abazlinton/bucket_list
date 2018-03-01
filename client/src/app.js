@@ -7,7 +7,9 @@ const CountryList = require('./models/country_list');
 
 
 const app = function(){
+  
   //setup views
+
   const countriesSelectView = new CountriesSelectView(document.querySelector('#countries'));
   const countryDetailView = new CountryDetailView(document.querySelector('#info'));
   const bucketListView = new BucketListView(document.querySelector('#bucket-list'));
@@ -20,7 +22,6 @@ const app = function(){
   //setup country list model
   const world = new CountryList('https://restcountries.eu/rest/v1');
   const bucketList = new CountryList('http://localhost:3000/bucketList');
-
   //update views on data update
   world.onUpdate = function(countries) {
     countriesSelectView.render(countries);
@@ -30,9 +31,11 @@ const app = function(){
     bucketListView.render(countries);
   };
 
-  countryDetailView.onAdd = function(country) {
-    bucketList.addCountry(country);
-  };
+ 
+  const addButton = document.querySelector('#add-button');
+  addButton.addEventListener('click', function() {
+    bucketList.addCountry(world.countries[countriesSelectView.selectElement.value]);
+  });
 
   //get data from server
   world.populate();
